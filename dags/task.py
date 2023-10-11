@@ -2,10 +2,6 @@ import pandas as pd
 from functions import upload_arquivo
 from datetime import datetime
 
-
-
-
-
 def consulta_api_lake_bronze():
     from api_consulta_https import api_people, api_planets, api_films
 
@@ -22,7 +18,6 @@ def consulta_api_lake_bronze():
     df_filme = pd.DataFrame([filme])
 
     upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, 'bronze')
-
 
 
 def bronze_silver_etl():
@@ -44,7 +39,7 @@ def bronze_silver_etl():
     dfs= [df_pessoa,df_planetas,df_filme]
     for df in dfs:
         padronizando_datas(df)
-        
+
     upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, 'silver')
 
 
