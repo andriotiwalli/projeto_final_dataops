@@ -8,7 +8,6 @@ from airflow.decorators import task
 def consulta_api_lake_bronze():
     from api_consulta_https import api_people, api_planets, api_films
 
-
     data_atual = datetime.now().strftime('%Y-%m-%d')
 
     pessoa = api_people(1)

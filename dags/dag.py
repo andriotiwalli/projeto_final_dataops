@@ -4,8 +4,8 @@ from task import consulta_api_lake_bronze,bronze_silver_etl
 
 with DAG(
     "projeto_final",
-    start_date        = datetime(2021, 1 ,1),
-    schedule_interval = '@daily',
+    start_date = datetime(2021, 1 ,1),
+    schedule_interval='0 8 * * *',    
     catchup = False               
 ) as dag:
     t1 = consulta_api_lake_bronze()
