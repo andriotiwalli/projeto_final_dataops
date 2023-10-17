@@ -26,10 +26,11 @@ def bronze_silver_etl():
     from functions import padronizando_datas
     
     data_atual = datetime.now().strftime('%Y-%m-%d')
-
-    pessoa_path = f'C:/projeto_final_dataops/dags/lake/bronze/people/pessoas_{data_atual}.csv'
-    planetas_path = f'C:/projeto_final_dataops/dags/lake/bronze/planets/planetas_{data_atual}.csv'
-    filme_path = f'C:/projeto_final_dataops/dags/lake/bronze/films/filmes_{data_atual}.csv'
+    
+    #/opt/airflow/ > local que esta sendo salvo o arquivo no docker
+    pessoa_path = f'/opt/airflow/lake/bronze/people/pessoas_{data_atual}.csv'
+    planetas_path = f'/opt/airflow/lake/bronze/planets/planetas_{data_atual}.csv'
+    filme_path = f'/opt/airflow/lake/bronze/films/filmes_{data_atual}.csv'
 
     df_pessoa = pd.read_csv(pessoa_path)
     df_planetas = pd.read_csv(planetas_path)
