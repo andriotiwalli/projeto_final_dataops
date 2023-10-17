@@ -21,9 +21,13 @@ def upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, path):
     planetas_folder_path = f'C:/projeto_final_dataops/dags/lake/{path}/planets'
     filme_folder_path = f'C:/projeto_final_dataops/dags/lake/{path}/films'
 
+    for folder_path in [pessoa_folder_path, planetas_folder_path, filme_folder_path]:
+        os.makedirs(folder_path, exist_ok=True)
+
     pessoa_csv_path = os.path.join(pessoa_folder_path, f'pessoas_{data_atual}.csv')
     planetas_csv_path = os.path.join(planetas_folder_path, f'planetas_{data_atual}.csv')
     filme_csv_path = os.path.join(filme_folder_path, f'filmes_{data_atual}.csv')
+
 
     print(f'Caminho de pessoas: {pessoa_csv_path}')
     print(f'Caminho de planetas: {planetas_csv_path}')
