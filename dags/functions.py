@@ -16,24 +16,23 @@ def padronizando_datas(df):
         if df[coluna].dtype == 'object':
             df[coluna] = df[coluna].apply(padronizar_data)
 
-
-
 def upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, path):
-    pessoa_folder_path = f'C:/projeto_final_dataops/lake/{path}/people'
-    planetas_folder_path = f'C:/projeto_final_dataops/lake/{path}/planets'
-    filme_folder_path = f'C:/projeto_final_dataops/lake/{path}/films'
-
-    # Verifique se os diretórios existem, se não, crie-os
-    for folder_path in [pessoa_folder_path, planetas_folder_path, filme_folder_path]:
-        os.makedirs(folder_path, exist_ok=True)
+    pessoa_folder_path = f'C:/projeto_final_dataops/dags/lake/{path}/people'
+    planetas_folder_path = f'C:/projeto_final_dataops/dags/lake/{path}/planets'
+    filme_folder_path = f'C:/projeto_final_dataops/dags/lake/{path}/films'
 
     pessoa_csv_path = os.path.join(pessoa_folder_path, f'pessoas_{data_atual}.csv')
     planetas_csv_path = os.path.join(planetas_folder_path, f'planetas_{data_atual}.csv')
     filme_csv_path = os.path.join(filme_folder_path, f'filmes_{data_atual}.csv')
 
+    print(f'Caminho de pessoas: {pessoa_csv_path}')
+    print(f'Caminho de planetas: {planetas_csv_path}')
+    print(f'Caminho de filmes: {filme_csv_path}')
+
     df_pessoa.to_csv(pessoa_csv_path, index=False)
     df_planetas.to_csv(planetas_csv_path, index=False)
     df_filme.to_csv(filme_csv_path, index=False)
-
+    print("Arquivos salvos com sucesso.")
+    
 
     
