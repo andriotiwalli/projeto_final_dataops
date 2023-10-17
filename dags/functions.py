@@ -17,10 +17,19 @@ def padronizando_datas(df):
 
 def upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, path):
     '''
-    Os arquivos estava sendo salvo no container do airflow, então
-    configurei no arquivo docker-compose  o comando (C:/projeto_final_dataops/dags/lake/:/opt/airflow/lake)
-    para ele ler o caminho e o arquivo salvo no container e salvar no windows,
-    por isso a base do path é '/opt/airflow/lake'
+    Originalmente, os arquivos estavam sendo salvos no interior do contêiner do 
+    Airflow, e eu estava enfrentando dificuldades para visualizar as pastas e 
+    acessar os dados. Para resolver esse problema, realizei uma configuração 
+    no arquivo docker-compose utilizando o comando C:/projeto_final_dataops/dags/lake/:/opt/airflow/lake. 
+    Essa configuração permite que o Docker Compose mapeie o 
+    caminho da pasta C:/projeto_final_dataops/dags/lake/ do meu sistema Windows 
+    para o caminho /opt/airflow/lake dentro do contêiner.
+
+    Isso tem o efeito de permitir que o contêiner leia o caminho e os ]
+    arquivos salvos no seu interior e, ao mesmo tempo, salve esses arquivos no 
+    sistema Windows. Dessa forma, a base do caminho /opt/airflow/lake se 
+    tornou um ponto de integração entre o contêiner do Airflow e o meu 
+    sistema local, facilitando o gerenciamento e a visualização dos dados.
     '''
 
     base_path = '/opt/airflow/lake'
