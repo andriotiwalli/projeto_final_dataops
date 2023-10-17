@@ -1,10 +1,10 @@
 import pandas as pd
 from functions import upload_arquivo
 from datetime import datetime
-# from airflow.decorators import task
+from airflow.decorators import task
 
 
-# @task
+@task
 def consulta_api_lake_bronze():
     from api_consulta_https import api_people, api_planets, api_films
 
@@ -22,7 +22,7 @@ def consulta_api_lake_bronze():
 
     upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, 'bronze')
 
-# @task
+@task
 def bronze_silver_etl():
     from functions import padronizando_datas
     
