@@ -28,9 +28,9 @@ def bronze_silver_etl():
     
     data_atual = datetime.now().strftime('%Y-%m-%d')
 
-    pessoa_path = f'C:/projeto_final_dataops/dags/lake/bronze/people/pessoas_{data_atual}.csv'
-    planetas_path = f'C:/projeto_final_dataops/dags/lake/bronze/planets/planetas_{data_atual}.csv'
-    filme_path = f'C:/projeto_final_dataops/dags/lake/bronze/films/filmes_{data_atual}.csv'
+    pessoa_path = f'C:/projeto_final_dataops/lake/bronze/people/pessoas_{data_atual}.csv'
+    planetas_path = f'C:/projeto_final_dataops/lake/bronze/planets/planetas_{data_atual}.csv'
+    filme_path = f'C:/projeto_final_dataops/lake/bronze/films/filmes_{data_atual}.csv'
 
     df_pessoa = pd.read_csv(pessoa_path)
     df_planetas = pd.read_csv(planetas_path)
@@ -46,8 +46,6 @@ def bronze_silver_etl():
     upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, 'silver')
 
 
-consulta_api_lake_bronze()
-bronze_silver_etl()
 
 
 
