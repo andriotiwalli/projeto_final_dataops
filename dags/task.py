@@ -45,8 +45,4 @@ def bronze_silver_etl():
 
     upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, 'silver')
 
-consulta_api_lake_bronze()
-bronze_silver_etl()
-
-
 
