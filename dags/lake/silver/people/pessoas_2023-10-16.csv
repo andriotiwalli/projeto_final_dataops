@@ -1,0 +1,2 @@
+name;height;mass;hair_color;skin_color;eye_color;birth_year;gender;homeworld;films;species;vehicles;starships;created;edited;url
+Beru Whitesun lars;165;75;brown;light;blue;47BBY;female;https://swapi.dev/api/planets/1/;['https://swapi.dev/api/films/1/', 'https://swapi.dev/api/films/5/', 'https://swapi.dev/api/films/6/'];[];[];[];10/12/2014;20/12/2014;https://swapi.dev/api/people/7/

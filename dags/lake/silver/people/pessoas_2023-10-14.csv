@@ -1,0 +1,2 @@
+name;height;mass;hair_color;skin_color;eye_color;birth_year;gender;homeworld;films;species;vehicles;starships;created;edited;url
+Greedo;173;74;;green;black;44BBY;male;https://swapi.dev/api/planets/23/;['https://swapi.dev/api/films/1/'];['https://swapi.dev/api/species/4/'];[];[];10/12/2014;20/12/2014;https://swapi.dev/api/people/15/

@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Airflow Worker",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}/apps/airflow/dags",
+                    "remoteRoot": "/opt/airflow/dags"
+                },
+                {
+                    "localRoot": "${workspaceFolder}/packages/pybt-models",
+                    "remoteRoot": "/opt/airflow/pybt-models"
+                },
+                {
+                    "localRoot": "${workspaceFolder}/packages/pybt-crawlers",
+                    "remoteRoot": "/opt/airflow/pybt-crawlers"
+                },
+                {
+                    "localRoot": "${workspaceFolder}/packages/pybt-elastic",
+                    "remoteRoot": "/opt/airflow/pybt-elastic"
+                }
+            ]
+        }
+    ]
+}
