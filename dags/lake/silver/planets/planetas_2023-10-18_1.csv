@@ -1,0 +1,2 @@
+name;rotation_period;orbital_period;diameter;climate;gravity;terrain;surface_water;population;residents;films;created;edited;url;Data Consulta
+Alderaan;24;364;12500;temperate;1 standard;grasslands, mountains;40;2000000000;['https://swapi.dev/api/people/5/', 'https://swapi.dev/api/people/68/', 'https://swapi.dev/api/people/81/'];['https://swapi.dev/api/films/1/', 'https://swapi.dev/api/films/6/'];10/12/2014;20/12/2014;https://swapi.dev/api/planets/2/;2023-10-18

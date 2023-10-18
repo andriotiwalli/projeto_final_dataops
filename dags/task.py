@@ -25,7 +25,7 @@ def consulta_api_lake_bronze():
 
 @task
 def bronze_silver_etl():
-    from functions import padronizando_datas,remover_quebras_de_linha, upload_arquivo
+    from functions import padronizando_datas,remover_quebras_de_linha, upload_arquivo, remover_caracteres_especiais
     
     
     #/opt/airflow/ > local que esta sendo salvo o arquivo no docker
@@ -44,6 +44,9 @@ def bronze_silver_etl():
     for df in dfs:
         padronizando_datas(df)
         remover_quebras_de_linha(df, caracteres_a_remover)
+        df.loc[0, 'Data Consulta'] = data_atual # incluindo a data que foi realizado a consulta
+        df = df.astype(str) #transformando colunas em string
+        remover_caracteres_especiais(df) # removendo caracteres especiais
           
 
     upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, 'silver')
@@ -52,20 +55,12 @@ def bronze_silver_etl():
 
 @task
 def silver_to_gold():
-    from functions import combinando_arquivos, upload_arquivo, remover_duplicados, aplicar_alteracoes
+    from functions import combinando_arquivos, upload_arquivo, aplicar_alteracoes
 
     df_pessoa = combinando_arquivos('/opt/airflow/lake/silver/people/')
     df_planetas = combinando_arquivos('/opt/airflow/lake/silver/planets/')
     df_filme = combinando_arquivos('/opt/airflow/lake/silver/films/')
 
-    dataframes = [df_pessoa, df_planetas, df_filme]
-
-    #removendo duplicados
-    df_pessoa = remover_duplicados(df_pessoa, 'name')
-    df_planetas = remover_duplicados(df_planetas, 'name')
-    df_filme = remover_duplicados(df_filme, 'episode_id')
-
-    
     df_filme = aplicar_alteracoes(df_filme, 'filme')
     df_pessoa = aplicar_alteracoes(df_pessoa, 'pessoa')
     df_planetas = aplicar_alteracoes(df_planetas, 'planetas')

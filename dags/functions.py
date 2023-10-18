@@ -2,40 +2,61 @@ from datetime import datetime
 import os
 import pandas as pd
 import logging
-
+import re
 
 def aplicar_alteracoes(df, identificador):
     mapeamento_colunas = renomear_colunas()
 
     if identificador == 'filme':
         df = df.rename(columns=mapeamento_colunas[0]) # nomeando as colunas para Português
-        df = df.applymap(lambda x: '' if x == [] else x) # alterando os valores [] para vazio
-
+        df = df.applymap(lambda x: '' if x == '[]' else x) # alterando os valores [] para vazio
+        df = remover_duplicados(df, 'numero_do_episodio')  #removendo duplicados
+        df = calcular_porcentagem_nulos(df) # calculando porcentagem de nulos
 
        
     elif identificador == 'pessoa':
         df = df.rename(columns=mapeamento_colunas[1])  # nomeando as colunas para Português
-        df = df.applymap(lambda x: '' if x == [] else x) # alterando os valores [] para vazio
+        df = df.applymap(lambda x: '' if x == '[]' else x) # alterando os valores [] para vazio
+        df = remover_duplicados(df, 'nome') #removendo duplicados
+        df = calcular_porcentagem_nulos(df) # calculando porcentagem de nulos
+
         
     elif identificador == 'planetas':
         df = df.rename(columns=mapeamento_colunas[2])  # nomeando as colunas para Português
+        df = remover_duplicados(df, 'nome') #removendo duplicados
+        df = calcular_porcentagem_nulos(df) # calculando porcentagem de nulos
  
+    return df
+
+
+def calcular_porcentagem_nulos(df):
+    null_percentages = (df.isnull().sum() / len(df)) * 100
+
+    result_df = pd.DataFrame(null_percentages).T
+    result_df.columns = ['%' + col for col in result_df.columns]
+
+    df = pd.concat([df, result_df], axis=1)
 
     return df
 
-def remover_duplicados(dataframe,colunas):
+def remover_caracteres_especiais(df):
+    for coluna in df.columns:
+        df[coluna] = df[coluna].apply(lambda x: re.sub(r'[^\w\s]', '', x))
+    return df
+
+def remover_duplicados(df,colunas):
   
-    dataframe_sem_duplicatas = dataframe.drop_duplicates(subset=[colunas])
-    return dataframe_sem_duplicatas
+    df_sem_duplicatas = df.drop_duplicates(subset=[colunas])
+    return df_sem_duplicatas
 
 def combinando_arquivos(diretorio):
-    dataframes = []
+    dfs = []
     for filename in os.listdir(diretorio):
         if filename.endswith('.csv'):
             filepath = os.path.join(diretorio, filename)
             df = pd.read_csv(filepath, sep=";")
-            dataframes.append(df)
-    return pd.concat(dataframes, ignore_index=True)
+            dfs.append(df)
+    return pd.concat(dfs, ignore_index=True)
 
 def remover_quebras_de_linha(df, caracteres_a_remover):
     for coluna in df.columns:
@@ -95,23 +116,23 @@ def upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, path):
     logging.info("Arquivos salvos com sucesso.")
 
 
-
 def renomear_colunas():
     filme = {
-        "title": "título",
-        "episode_id": "número_do_episódio",
-        "opening_crawl": "introdução",
+        "title": "titulo",
+        "episode_id": "numero_do_episodio",
+        "opening_crawl": "introducao",
         "director": "diretor",
         "producer": "produtor",
-        "release_date": "data_de_lançamento",
+        "release_date": "data_de_lancamento",
         "characters": "personagens",
         "planets": "planetas",
         "starships": "naves_estelares",
-        "vehicles": "veículos",
-        "species": "espécies",
+        "vehicles": "veiculos",
+        "species": "especies",
         "created": "criado",
         "edited": "editado",
-        "url": "URL"
+        "url": "URL",
+        "Data Consulta": "Data Consulta"
     }
     pessoa = {
         "name": "nome",
@@ -121,30 +142,32 @@ def renomear_colunas():
         "skin_color": "cor_da_pele",
         "eye_color": "cor_dos_olhos",
         "birth_year": "ano_de_nascimento",
-        "gender": "gênero",
+        "gender": "genero",
         "homeworld": "planeta_natal",
         "films": "filmes",
-        "species": "espécies",
-        "vehicles": "veículos",
+        "species": "especies",
+        "vehicles": "veiculos",
         "starships": "naves_estelares",
         "created": "criado",
         "edited": "editado",
-        "url": "URL"
+        "url": "URL",
+        "Data Consulta": "Data Consulta"
     }
     planetas = {
         "name": "nome",
-        "rotation_period": "período_de_rotação",
-        "orbital_period": "período_orbital",
-        "diameter": "diâmetro",
+        "rotation_period": "periodo_de_rotacao",
+        "orbital_period": "periodo_orbital",
+        "diameter": "diametro",
         "climate": "clima",
         "gravity": "gravidade",
         "terrain": "terreno",
-        "surface_water": "água_superficial",
-        "population": "população",
+        "surface_water": "agua_superficial",
+        "population": "populacao",
         "residents": "residentes",
         "films": "filmes",
         "created": "criado",
         "edited": "editado",
-        "url": "URL"
+        "url": "URL",
+        "Data Consulta": "Data Consulta"
     }
     return filme, pessoa, planetas
