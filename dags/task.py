@@ -23,27 +23,30 @@ def consulta_api_lake_bronze():
  
     upload_arquivo(data_atual, df_pessoa, df_planetas, df_filme, 'bronze')
 
+
 @task
 def bronze_silver_etl():
     from functions import padronizando_datas,remover_quebras_de_linha, upload_arquivo, remover_caracteres_especiais
     
-    
+   
     #/opt/airflow/ > local que esta sendo salvo o arquivo no docker
-    pessoa_path = f'/opt/airflow/lake/bronze/people/pessoas_{data_atual}_1.csv'
-    planetas_path = f'/opt/airflow/lake/bronze/planets/planetas_{data_atual}_1.csv'
-    filme_path = f'/opt/airflow/lake/bronze/films/filmes_{data_atual}_1.csv'
-
+    pessoa_path = f'/opt/airflow/lake/bronze/people/pessoas_{data_atual}.csv'
+    planetas_path = f'/opt/airflow/lake/bronze/planets/planetas_{data_atual}.csv'
+    filme_path = f'/opt/airflow/lake/bronze/films/filmes_{data_atual}.csv'
+    
     df_pessoa = pd.read_csv(pessoa_path, sep=';')
     df_planetas = pd.read_csv(planetas_path, sep=';')
     df_filme = pd.read_csv(filme_path,  sep=';')
     
     #ETL DATAFRAMES
-    caracteres_a_remover = r'[\r\n]'  
 
     dfs= [df_pessoa,df_planetas,df_filme]
     for df in dfs:
         padronizando_datas(df)
+        
+        caracteres_a_remover = r'[\r\n]'  
         remover_quebras_de_linha(df, caracteres_a_remover)
+        
         df.loc[0, 'Data Consulta'] = data_atual # incluindo a data que foi realizado a consulta
         df = df.astype(str) #transformando colunas em string
         remover_caracteres_especiais(df) # removendo caracteres especiais
@@ -67,4 +70,4 @@ def silver_to_gold():
 
     upload_arquivo('all', df_pessoa, df_planetas, df_filme, 'gold')
     
-    return 
+    return
