@@ -1,9 +1,7 @@
 # projeto_final_dataops
 
 ## Integrantes
-Ana Rogéria Brito
-Paulo Henrique Barcelos Spanguero
-Wallison Messias Andrioti
+Ana Rogéria Brito, Paulo Henrique Barcelos Spanguero, Wallison Messias Andrioti
 
 ## Estrutura do Projeto
 dags/projeto_final.py: O arquivo principal que define o DAG do Apache Airflow.
