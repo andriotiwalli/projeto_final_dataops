@@ -1,6 +1,6 @@
 # projeto_final_dataops
 
-Estrutura do Projeto
+## Estrutura do Projeto
         dags/projeto_final.py: O arquivo principal que define o DAG do Apache Airflow.
         functions.py: Contém funções auxiliares usadas no processo de ETL.
         api_consulta_https.py: Contém funções para fazer consultas à API Star Wars.
